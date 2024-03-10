@@ -30,6 +30,12 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+#define K1 GPIO_PIN_0
+#define K2 GPIO_PIN_1
+#define K3 GPIO_PIN_2
+#define D1 GPIO_PIN_8
+#define D2 GPIO_PIN_9
+#define D3 GPIO_PIN_10
 
 /* USER CODE END PD */
 
@@ -53,7 +59,49 @@ static void MX_GPIO_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+//关灯
+void TurnOnLights(uint16_t GPIO_PIN)
+{
+    HAL_GPIO_WritePin(GPIOF, GPIO_PIN, GPIO_PIN_SET);
+}
+//开灯
+void TurnOffLights(uint16_t GPIO_PIN)
+{
+    HAL_GPIO_WritePin(GPIOF, GPIO_PIN, GPIO_PIN_RESET);
+}
+//按钮
+void CheckButtons(void)
+{
+    // PC0 按键被按下
+    if (HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_0) == GPIO_PIN_SET)
+    {
 
+        TurnOnLights(D1);
+    }
+    else
+    {
+        TurnOffLights(D1);
+    }
+    if (HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_1) == GPIO_PIN_SET)
+    {
+        // PC1 按键被按下，执行相应的操作
+        TurnOnLights(D2);
+    }
+    else
+    {
+        TurnOffLights(D2);
+    }
+
+
+    if (HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_2) == GPIO_PIN_SET)
+    {
+        // PC2 按键被按下，执行相应的操作
+        TurnOnLights(D3);
+    } else
+    {
+        TurnOffLights(D3);
+    }
+}
 /* USER CODE END 0 */
 
 /**
@@ -92,10 +140,13 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+
+      CheckButtons();
+  }
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-  }
+
   /* USER CODE END 3 */
 }
 
@@ -148,10 +199,11 @@ static void MX_GPIO_Init(void)
 
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOF_CLK_ENABLE();
+  __HAL_RCC_GPIOC_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOF, GPIO_PIN_8|GPIO_PIN_9|GPIO_PIN_10, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOF, GPIO_PIN_8|GPIO_PIN_9|GPIO_PIN_10, GPIO_PIN_SET);
 
   /*Configure GPIO pins : PF8 PF9 PF10 */
   GPIO_InitStruct.Pin = GPIO_PIN_8|GPIO_PIN_9|GPIO_PIN_10;
@@ -159,6 +211,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : PC0 PC1 PC2 */
+  GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_1|GPIO_PIN_2;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
 /* USER CODE BEGIN MX_GPIO_Init_2 */
 /* USER CODE END MX_GPIO_Init_2 */
