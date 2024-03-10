@@ -30,18 +30,18 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+
+
+/* USER CODE END PD */
+
+/* Private macro -------------------------------------------------------------*/
+/* USER CODE BEGIN PM */
 #define K1 GPIO_PIN_0
 #define K2 GPIO_PIN_1
 #define K3 GPIO_PIN_2
 #define D1 GPIO_PIN_8
 #define D2 GPIO_PIN_9
 #define D3 GPIO_PIN_10
-
-/* USER CODE END PD */
-
-/* Private macro -------------------------------------------------------------*/
-/* USER CODE BEGIN PM */
-
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
@@ -73,7 +73,7 @@ void TurnOffLights(uint16_t GPIO_PIN)
 void CheckButtons(void)
 {
     // PC0 按键被按下
-    if (HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_0) == GPIO_PIN_SET)
+    if (HAL_GPIO_ReadPin(GPIOC, K1) == GPIO_PIN_SET)
     {
 
         TurnOnLights(D1);
@@ -82,9 +82,10 @@ void CheckButtons(void)
     {
         TurnOffLights(D1);
     }
-    if (HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_1) == GPIO_PIN_SET)
+    // PC1 按键被按下
+    if (HAL_GPIO_ReadPin(GPIOC, K2) == GPIO_PIN_SET)
     {
-        // PC1 按键被按下，执行相应的操作
+
         TurnOnLights(D2);
     }
     else
@@ -92,10 +93,10 @@ void CheckButtons(void)
         TurnOffLights(D2);
     }
 
-
-    if (HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_2) == GPIO_PIN_SET)
+    // PC2 按键被按下
+    if (HAL_GPIO_ReadPin(GPIOC, K3) == GPIO_PIN_SET)
     {
-        // PC2 按键被按下，执行相应的操作
+
         TurnOnLights(D3);
     } else
     {
