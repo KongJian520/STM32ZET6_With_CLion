@@ -49,7 +49,7 @@ uint8_t SSD1306_Init(void) {
 	ssd1306_I2C_Init();
 
 	/* Check if LCD connected to I2C */
-	if (HAL_I2C_IsDeviceReady(&hi2c1, SSD1306_I2C_ADDR, 1, 20000) != HAL_OK) {
+	if (HAL_I2C_IsDeviceReady(&hi2c2, SSD1306_I2C_ADDR, 1, 20000) != HAL_OK) {
 		/* Return false */
 		return 0;
 	}
@@ -504,7 +504,7 @@ void ssd1306_I2C_Init() {
 	uint32_t p = 250000;
 	while(p>0)
 		p--;
-	//HAL_I2C_DeInit(&hi2c1);
+	//HAL_I2C_DeInit(&hi2c2);
 	//p = 250000;
 	//while(p>0)
 	//	p--;
@@ -517,7 +517,7 @@ void ssd1306_I2C_WriteMulti(uint8_t address, uint8_t reg, uint8_t* data, uint16_
 	uint8_t i;
 	for(i = 1; i <= count; i++)
 		dt[i] = data[i-1];
-	HAL_I2C_Master_Transmit(&hi2c1, address, dt, count, 10);
+	HAL_I2C_Master_Transmit(&hi2c2, address, dt, count, 10);
 }
 
 
@@ -525,5 +525,5 @@ void ssd1306_I2C_Write(uint8_t address, uint8_t reg, uint8_t data) {
 	uint8_t dt[2];
 	dt[0] = reg;
 	dt[1] = data;
-	HAL_I2C_Master_Transmit(&hi2c1, address, dt, 2, 10);
+	HAL_I2C_Master_Transmit(&hi2c2, address, dt, 2, 10);
 }
